@@ -1,0 +1,41 @@
+# Verify a registered document
+
+Open [the agreement verifier](verifier.html) in a browser. A saved copy can identify a standard public template and check an opening for a name or another committed field offline. To look up a particular agreement, signature or endorsement onchain, supply an RPC endpoint for the chain where the record was made. The browser sends public contract queries to that endpoint. It hashes the PDF and opens commitments locally.
+
+## Use the verifier from a company copy
+
+In a readable snapshot, or after you unlock an officer copy, choose **Save standalone verifier**. The saved HTML is the published verifier, identical for every company. You can share this file by itself. Its footer lets you save both format documents and the published commitment test vectors even when offline. In the snapshot, expand one field and choose **Save field opening** to save just that value, context and salt. Give the opening only to someone entitled to read it.
+
+To check a document, choose **Save PDF** on the original agreement and open the verifier in a separate tab. To check a field offline, load its opening and paste a commitment obtained independently from the onchain record. The snapshot itself makes no network requests.
+
+## Document references
+
+To identify a registered original offline, choose **Standard public templates · offline** on the Document tab and select the original PDF attached to a completed agreement. The verifier computes its IPFS content addresses and compares them with its catalog of standard financing and secondary sale papers. It lists each matching financing registration, including both IDs when they share one original. Use the finalized registry lookup to check which agreement used the template and when its parties signed.
+
+Use the original registered PDF. A printed copy, a newly saved PDF or a later conformed copy can have different bytes. When a shared form is registered, multiple agreements can reference the same PDF. Check the agreement ID and signing wallets against your receipt.
+
+* A cyberSign private-document reference embeds the retained artifact UUID and the SHA-256 of the exact PDF bytes as `urn:metalex:private-document:<UUID>:sha256:<64 hex digits>`. The signed global field `documentSha256` must occur once and agree with the reference. The UUID identifies an artifact. It grants no access to the file.
+* A flat public IPFS reference identifies the file by its CID. The verifier computes MetaLeX’s CIDv0 UnixFS construction, its CIDv1 alias, and the supported CIDv1 raw-leaf constructions from the dropped bytes. The CID can include UnixFS framing and chunk links. It can differ from a raw SHA-256 digest. When the signed record also includes `documentSha256`, both checks must pass.
+* For a directory path or a file with a different UnixFS layout, select its CAR file under **Search options and IPFS proof**. The browser checks the registered root, each traversed block and the exact file at the registered path against your PDF. It accepts a single-root archive up to 27 MiB and a file within it up to 25 MiB. An incomplete or unrelated archive leaves the reference unverified. A mutable web address alone supplies no content proof.
+
+The public RPC supplies the chain ID and finalized block. The page checks the registry proxy and implementation against the repository’s reviewed runtime matrix at that block. It reads `ContractCreated` logs in bounded ranges and obtains the registered URI from `getTemplateDetails`. Matching agreements are checked against `getContractDetails` and `agreements`. The results include the agreement ID, parties in registry order, each recorded signing time in UTC, and the contract status. The finalized block hash is checked again before presenting results.
+
+An agreement ID checks one record. A start block confines discovery to that block and later history. With both boxes empty, the verifier finds the registry deployment block using historical bytecode reads and searches through the selected finalized tip. The RPC must support browser requests, complete log results and historical reads for the selected range. A failed read, cancellation or changing chain leaves the search incomplete. Results rely on the selected RPC’s account of the chain.
+
+A party downloading a completed standard financing round or ticket can save the standalone HTML verifier from the PDF’s attachments. The verifier contains the published program. A holder record, when present, is a separate confidential attachment. Open the saved program, select **Name or field**, load the holder record and compare its opening with an independently obtained commitment. To identify the registered template edition, choose **Standard public templates · offline** under **Compare with** and open the original PDF. Under **Conformed copy**, open the financing receipts JSON from the download. The offline view displays the dates, transactions and block hashes for that purchase. Add the original PDF to compare its content address with the exact URI in the receipts. A round identifies when the company approved the round terms and when the investor signed. A direct ticket identifies each party’s signing transaction and the proposal. Both identify the final allocation or settlement.
+
+Choose **Check financing receipts onchain** to compare those events with a trusted archive RPC endpoint on the recorded network. The verifier checks the finalized block hash, registry, company’s manager, registered paper, signing wallets and matching events. The endpoint receives public references. The PDF, names, private values and openings stay on the device. This check covers the recorded events. Issued standard stock rounds and settled standard stock tickets also support offline reproduction of their terms. Other financing editions currently provide receipt and template checks.
+
+## Name or field openings
+
+Use the [v1 commitment construction](commitment-v1.md) and [shared vectors](commitment-v1-vectors.json). Paste an independently obtained commitment, then enter the opening or load its JSON. The context binds the value and salt to the original chain, contract, position and field. A matching opening proves that it produces the selected string. Onchain reads can select a registered agreement field or a particular LET endorsement by printer address, token ID and endorsement index. An endorsement lookup reports that historical entry. Later endorsements can name a different holder.
+
+The caller supplies the RPC URL only when requesting an onchain check. The page uses no MetaLeX server, wallet connection, analytics or IPFS gateway. Store openings with care. They contain the readable value and salt. Commitments do not protect against a breach of MetaLeX.
+
+## Rebuild and verify the saved page
+
+Install the repository’s locked dependencies and run `node scripts/signing-verifier/build.mjs` from its root. Use `--check` to compare the checked-in page with a fresh build. After rebuilding the page, run `bun packages/legal-documents/scripts/embed-records-viewer.ts` to include those bytes in future snapshots. Run `bun test scripts/signing-verifier/verifier.test.ts` for the registry cases. Set `SIGNING_VERIFIER_BROWSER=1` and run `node --test scripts/signing-verifier/verifier.browser.test.mjs` for the saved-page check in Chromium. Set `CHROMIUM_PATH` if using a system Chromium installation.
+
+For the onchain browser cases, start a disposable local Anvil fork of Base Sepolia at block 60094633 with chain ID 84532. Set `VERIFIER_LOCAL_RPC` to its loopback URL and `VERIFIER_FORK_FIXTURE` to a temporary output filename. Run `bun --tsconfig-override apps/cybercorps-web/tsconfig.json scripts/signing-verifier/fork.fixture.ts` on that fork, then run the browser tests with the same environment. The fixture creates three synthetic agreements and a certificate on each of the v4 and v5 printers. The browser unlocks a synthetic officer attachment, saves the original PDF, verifier and one opening, and checks the saved files against the fork.
+
+For an issued standard stock round or a settled standard stock ticket, the party copy’s agreement-reading.json and the registered stock purchase PDF reproduce the filled clauses and signature page. The incorporated charter, bylaws and transaction agreements can be read directly at pages 41–197 of that verified PDF.

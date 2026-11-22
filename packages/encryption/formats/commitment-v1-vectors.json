@@ -1,0 +1,38 @@
+[
+  {
+    "name": "round holder",
+    "opening": {
+      "chainId": "84532",
+      "contract": "0xabababababababababababababababababababab",
+      "position": "round.0101010101010101010101010101010101010101010101010101010101010101.17.party.1",
+      "field": "party.0.name",
+      "value": "Renée Li",
+      "salt": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+    },
+    "commitment": "mtlxc1:8223c4aeb273182cd7564c13d3409f8b40ed76e43617b9a89d21afe27b8c4792"
+  },
+  {
+    "name": "second field with punctuation",
+    "opening": {
+      "chainId": "84532",
+      "contract": "0xabababababababababababababababababababab",
+      "position": "round.0101010101010101010101010101010101010101010101010101010101010101.17.party.1",
+      "field": "party.2.contact",
+      "value": "A:B|<x>\n𐐷@example.test",
+      "salt": "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f"
+    },
+    "commitment": "mtlxc1:870ff405802d041c1b12866e97a1afbd17389840b7788f37ffc9f4dfce3d9bc0"
+  },
+  {
+    "name": "manual LET",
+    "opening": {
+      "chainId": "42161",
+      "contract": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+      "position": "issue.01234567-89ab-4def-89ab-0123456789ab.0",
+      "field": "holder.name",
+      "value": "Dr. 李",
+      "salt": "404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f"
+    },
+    "commitment": "mtlxc1:bf52065880acb9039c8f0060571fe38bb1b434971c375562538f7bb4ac298ace"
+  }
+]

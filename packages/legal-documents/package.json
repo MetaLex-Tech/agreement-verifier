@@ -1,0 +1,13 @@
+{
+  "name": "@metalex-web/legal-documents",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./financing-receipts": "./src/financingReceipts.ts",
+    "./registered-stock": "./src/registeredStock.ts",
+    "./conformed-stock-round": "./src/conformedStockRound.ts",
+    "./conformed-secondary-sale": "./src/conformedSecondarySale.ts"
+  }
+}

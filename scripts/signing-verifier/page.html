@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'sha256-__HASH__'; style-src 'unsafe-inline'; connect-src https: http://localhost:* http://127.0.0.1:* http://[::1]:*; base-uri 'none'; form-action 'none'"
+    >
+    <title>Agreement verifier · MetaLeX</title>
+    <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, system-ui, sans-serif;
+      color: #192622;
+      background: #f4f5ef;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+    }
+    header {
+      border-bottom: 1px solid #b6beb2;
+      background: #fff;
+    }
+    header div,
+    main {
+      max-width: 60rem;
+      margin: auto;
+      padding: 1rem clamp(1rem, 5vw, 4rem);
+    }
+    header div {
+      font-weight: 750;
+      letter-spacing: -0.045em;
+      font-size: 1.4rem;
+    }
+    main {
+      padding-top: clamp(1.6rem, 5vw, 3rem);
+      padding-bottom: 4rem;
+    }
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0 0 0.7rem;
+    }
+    h1 {
+      font:
+        normal clamp(2.5rem, 6vw, 4.5rem) / 1.06 Georgia,
+        serif;
+      letter-spacing: -0.055em;
+    }
+    h2 {
+      font:
+        normal 1.75rem / 1.2 Georgia,
+        serif;
+    }
+    h3 {
+      font-size: 1.05rem;
+    }
+    nav {
+      display: flex;
+      margin: 1.4rem 0 0;
+      gap: 0.25rem;
+    }
+    button {
+      cursor: pointer;
+      font: inherit;
+      font-weight: 650;
+      border: 1px solid #275347;
+      border-radius: 4px;
+      background: #214c40;
+      color: white;
+      padding: 0.65rem 1.1rem;
+    }
+    button.secondary,
+    nav button {
+      background: transparent;
+      color: #214c40;
+    }
+    nav button {
+      border-color: transparent;
+      border-radius: 0;
+      border-bottom: 3px solid transparent;
+    }
+    nav button[aria-pressed="true"] {
+      border-bottom-color: #214c40;
+    }
+    button:focus-visible,
+    summary:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #387fa7;
+      outline-offset: 2px;
+    }
+    section {
+      padding: clamp(1rem, 4vw, 2rem);
+      background: #fff;
+      border: 1px solid #c9d1c4;
+      border-radius: 4px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 0.85rem 0;
+    }
+    input,
+    select {
+      display: block;
+      width: 100%;
+      font: inherit;
+      color: inherit;
+      margin-top: 0.25rem;
+      border: 1px solid #98a69b;
+      border-radius: 4px;
+      padding: 0.55rem;
+      background: white;
+    }
+    input[type="file"] {
+      font-size: 0.95rem;
+    }
+    small,
+    .hint {
+      color: #465b50;
+      font-weight: 400;
+    }
+    details {
+      margin: 0.9rem 0;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: 600;
+    }
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+    label small {
+      display: block;
+    }
+    .drop {
+      padding: 1rem;
+      border: 1px dashed #739287;
+      border-radius: 4px;
+      background: #f3f7f2;
+    }
+    .drop.over {
+      background: #dfede3;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 1rem;
+    }
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+    .result:not(:empty) {
+      border-left: 3px solid #42644f;
+      background: #f1f6ee;
+      padding: 0.9rem 1rem;
+      margin: 1rem 0 0;
+      overflow-wrap: anywhere;
+      white-space: pre-line;
+    }
+    .result.error {
+      border-color: #9b421b;
+      background: #fff6ef;
+    }
+    .record {
+      margin-top: 1rem;
+      border-top: 1px solid #cdd5cb;
+      padding-top: 0.8rem;
+    }
+    dl {
+      margin: 0.5rem 0;
+    }
+    dt {
+      font-weight: 600;
+    }
+    dd {
+      margin: 0 0 0.55rem;
+      overflow-wrap: anywhere;
+    }
+    #reading-result {overflow-wrap: anywhere; white-space: pre-wrap;}
+    nav { flex-wrap: wrap; }
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.1rem;
+      padding: 1rem 0;
+    }
+    a {
+      color: #235849;
+    }
+    code {
+      overflow-wrap: anywhere;
+    }
+    [hidden] {
+      display: none;
+    }
+    @media (max-width: 640px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      nav {
+        margin-top: 1rem;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <header><div>MetaLeX</div></header>
+    <main>
+      <h1>Agreement verifier</h1>
+      <p>
+        Check a signed document, open a recorded commitment, or inspect the evidence in a completed agreement. Your files stay in this browser.
+      </p>
+      <nav aria-label="Choose a check">
+        <button
+          type="button"
+          id="tab-doc"
+          aria-pressed="true"
+          aria-controls="doc"
+        >
+          Document
+        </button><button
+          type="button"
+          id="tab-name"
+          aria-pressed="false"
+          aria-controls="name-panel"
+        >
+          Name or field
+        </button>
+        <button type="button" id="tab-reading" aria-pressed="false" aria-controls="reading-panel">Conformed copy</button>
+      </nav>
+      <section id="doc">
+        <h2>Check a document</h2>
+        <label class="drop" id="drop"
+          >Drop the original PDF here or choose a file<input
+            id="pdf"
+            type="file"
+            accept=".pdf,application/pdf"
+          ></label
+        >
+        <label>Compare with<select id="doc-mode">
+          <option value="registry">Finalized agreement registry</option>
+          <option value="offline">Standard public templates · offline</option>
+        </select></label>
+        <p id="template-help" hidden>Choose the registered original attached to your completed agreement. This checks its bytes against the standard financing and secondary sale templates included in this verifier.</p>
+        <div id="registry-options">
+          <label
+            >RPC endpoint<input
+              id="doc-rpc"
+              type="url"
+              placeholder="https://"
+              autocomplete="off"
+              spellcheck="false"
+            ><small
+              >The endpoint you choose supplies the finalized registry records.</small
+            ></label
+          >
+          <details>
+            <summary>Search options and IPFS proof</summary>
+            <label
+              >IPFS archive (optional)<input
+                type="file"
+                id="car"
+                accept=".car,application/vnd.ipld.car"
+              ><small
+                >For a PDF in an IPFS directory, choose the CAR file that contains
+                its registered path. The archive stays in your browser.</small
+              ></label
+            >
+            <label
+              >Agreement ID (optional)<input
+                id="doc-id"
+                spellcheck="false"
+                placeholder="0x…"
+              ><small
+                >Use the ID on your signing receipt for a direct check.</small
+              ></label
+            ><label
+              >Start block (optional)<input id="start" inputmode="numeric">
+              <small
+                >Without an ID or a start block, the search begins at registry
+                deployment. Long searches may require an archive RPC.</small
+              ></label
+            >
+          </details>
+        </div>
+        <div class="actions">
+          <button type="button" id="search">Check document</button
+          ><button type="button" class="secondary" id="stop" hidden>
+            Cancel search
+          </button>
+        </div>
+        <div id="doc-status" class="result" role="status"></div>
+        <div id="matches"></div>
+      </section>
+      <section id="reading-panel" hidden>
+        <h2>Check a completed agreement</h2>
+        <p>Choose the original template and the JSON attachment from your PDF. For a standard secondary sale, an issued standard stock round or a settled standard stock ticket, the original PDF and agreement-reading.json reproduce the conformed wording. A standard financing includes the receipts for company approval, investor signing and settlement. For financing receipts, the original PDF is optional. Add it to compare the template.</p>
+        <label>Agreement evidence or financing receipts<input id="reading-json" type="file" accept=".json,application/json"></label>
+        <label>Original template (Registered agreement.pdf)<input id="reading-original" type="file" accept=".pdf,application/pdf"></label>
+        <button id="read-sale" type="button">Check attached evidence</button>
+        <div id="reading-status" class="result" role="status" aria-live="polite"></div>
+        <article id="reading-result" aria-label="Reconstructed agreement"></article>
+        <details id="finance-network" hidden>
+          <summary id="network-summary">Check the registered agreement onchain</summary>
+          <p>The endpoint receives public contract addresses, agreement and transaction references. Your PDF and attached file stay in this browser.</p>
+          <label>Archive RPC endpoint on the recorded network<input id="finance-rpc" type="url" autocomplete="off" spellcheck="false"></label>
+          <button type="button" id="check-terms" hidden>Check registered terms</button>
+          <button type="button" id="check-finance">Check receipts onchain</button>
+          <div id="finance-status" class="result" role="status"></div>
+        </details>
+      </section>
+      <section id="name-panel" hidden>
+        <h2>Check a name or field</h2>
+        <p>
+          Load the opening you received or enter its details. Compare it with a
+          commitment from the agreement or ledger entry token (LET).
+        </p>
+        <label
+          >Opening file (JSON)<input
+            type="file"
+            id="opening-file"
+            accept=".json,application/json"
+          ></label
+        >
+        <label
+          >Name or field value<textarea
+            id="value"
+            rows="2"
+            style="display:block;width:100%;font:inherit;padding:.55rem"
+          ></textarea></label
+        ><label
+          >Salt<input
+            id="salt"
+            spellcheck="false"
+            autocomplete="off"
+            placeholder="64 hexadecimal characters"
+          ></label
+        >
+        <details id="context">
+          <summary>Opening context</summary>
+          <div class="grid">
+            <label>Chain ID<input id="chain" inputmode="numeric"></label
+            ><label
+              >Origin contract<input
+                id="origin"
+                spellcheck="false"
+                placeholder="0x…"
+              ></label
+            ><label
+              >Position identifier<input
+                id="position"
+                spellcheck="false"
+              ></label
+            ><label
+              >Field identifier<input id="field" spellcheck="false"></label
+            >
+          </div>
+        </details>
+        <label
+          >Compare with<select id="source">
+            <option value="paste">Pasted onchain commitment · offline</option>
+            <option value="agreement">A field on a registered agreement</option>
+            <option value="let">A LET endorsement</option>
+          </select></label
+        >
+        <div id="pasted">
+          <label
+            >Recorded commitment<input
+              id="recorded"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="mtlxc1:…"
+            ></label
+          >
+        </div>
+        <div id="remote" hidden>
+          <label
+            >RPC endpoint<input
+              id="name-rpc"
+              type="url"
+              placeholder="https://"
+              autocomplete="off"
+              spellcheck="false"
+            ></label
+          ><label id="ag-label"
+            >Agreement ID<input
+              id="name-id"
+              spellcheck="false"
+              placeholder="0x…"
+            ></label
+          >
+          <div id="let-fields" hidden>
+            <label
+              >LET printer address<input
+                id="printer"
+                spellcheck="false"
+                placeholder="0x…"
+              ></label
+            >
+            <div class="grid">
+              <label
+                >Certificate number<input id="token" inputmode="numeric"></label
+              ><label
+                >Endorsement index<input
+                  id="slot"
+                  value="0"
+                  inputmode="numeric"
+                ><small>0 selects the initial endorsement.</small></label
+              >
+            </div>
+          </div>
+          <button type="button" class="secondary" id="load-record">
+            Read onchain fields
+          </button><label id="choice-label" hidden
+            >Recorded field<select id="choice"></select></label
+          >
+          <div id="record-status" class="result" role="status"></div>
+        </div>
+        <button type="button" id="compare">Compare opening</button>
+        <div id="name-status" class="result" role="status"></div>
+      </section>
+      <footer>
+        <a download="conformed-reading-v1.md" href="__FILE_conformed-reading-v1.md__">Download conformed reading format</a>
+        <a download="commitment-v1.md" href="__FILE_commitment-v1.md__"
+          >Download commitment format</a
+        ><a
+          download="document-references.md"
+          href="__FILE_document-references.md__"
+          >Download document references</a
+        ><a
+          download="commitment-v1-vectors.json"
+          href="__FILE_commitment-v1-vectors.json__"
+          >Download test vectors</a
+        >
+      </footer>
+      <noscript>Enable JavaScript to check a file in your browser.</noscript>
+    </main>
+    <script>
+    /* VERIFIER */
+    </script>
+  </body>
+</html>

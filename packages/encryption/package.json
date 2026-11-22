@@ -1,0 +1,9 @@
+{
+  "name": "@metalex-web/encryption",
+  "private": true,
+  "version": "0.0.0",
+  "exports": {
+    "./commitment": "./src/commitment.ts",
+    "./constants": "./src/constants.ts"
+  }
+}
