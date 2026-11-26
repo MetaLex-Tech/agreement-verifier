@@ -632,6 +632,99 @@ export const cyberAgreementRegistryAbi = [
   },
   {
     type: "event",
+    name: "SignerConditionConfigSet",
+    inputs: [
+      {
+        name: "kind",
+        type: "bytes32",
+        indexed: true,
+        internalType: "bytes32",
+      },
+      {
+        name: "config",
+        type: "bytes",
+        indexed: false,
+        internalType: "bytes",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "SignerConditionMet",
+    inputs: [
+      {
+        name: "contractId",
+        type: "bytes32",
+        indexed: true,
+        internalType: "bytes32",
+      },
+      {
+        name: "party",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "index",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+      {
+        name: "kind",
+        type: "bytes32",
+        indexed: false,
+        internalType: "bytes32",
+      },
+      {
+        name: "result",
+        type: "bytes",
+        indexed: false,
+        internalType: "bytes",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "SignerConditionSet",
+    inputs: [
+      {
+        name: "contractId",
+        type: "bytes32",
+        indexed: true,
+        internalType: "bytes32",
+      },
+      {
+        name: "party",
+        type: "address",
+        indexed: true,
+        internalType: "address",
+      },
+      {
+        name: "index",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+      {
+        name: "kind",
+        type: "bytes32",
+        indexed: false,
+        internalType: "bytes32",
+      },
+      {
+        name: "params",
+        type: "bytes",
+        indexed: false,
+        internalType: "bytes",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
     name: "Upgraded",
     inputs: [
       {

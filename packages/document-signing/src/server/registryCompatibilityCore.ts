@@ -157,6 +157,8 @@ export const resolveErc1967Implementation = (
   storageValue: Hex | undefined,
 ): Address | undefined => {
   if (!storageValue || !isBytes32(storageValue)) return undefined;
+  // ABI-encoded addresses in ERC-1967 slots must have 12 zero high bytes.
+  if (storageValue.slice(2, 26) !== "0".repeat(24)) return undefined;
 
   const candidate = `0x${storageValue.slice(-40)}`;
   if (!isAddress(candidate) || isAddressEqual(candidate, zeroAddress)) {
@@ -200,7 +202,9 @@ export const probeRegistryRuntimeCompatibility = async ({
   matrix: RegistryCompatibilityMatrix;
   blockNumber?: bigint;
 }): Promise<RegistryRuntimeCompatibility> => {
-  const configured = matrix[chainId];
+  const configured = Object.hasOwn(matrix, chainId)
+    ? matrix[chainId]
+    : undefined;
   if (!configured) return runtimeBlocked(chainId, "unsupported-chain");
 
   const { registryAddress, review } = configured;
@@ -346,7 +350,9 @@ export const probeRegistryRuntimeCompatibilityWithClientFactory = async ({
   clientFactory: () => RegistryRuntimeClient;
   matrix: RegistryCompatibilityMatrix;
 }): Promise<RegistryRuntimeCompatibility> => {
-  const configured = matrix[chainId];
+  const configured = Object.hasOwn(matrix, chainId)
+    ? matrix[chainId]
+    : undefined;
   if (!configured) return runtimeBlocked(chainId, "unsupported-chain");
   if (!configured.review) {
     return runtimeBlocked(chainId, "runtime-not-reviewed", {

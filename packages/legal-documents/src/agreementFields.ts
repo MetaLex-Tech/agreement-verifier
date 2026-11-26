@@ -145,6 +145,8 @@ export function signerValues(
   const values = enteredByKey(fields, entered);
   if (check)
     for (const field of fields) {
+      if (field.askWhen && !evaluateFieldCondition(field.askWhen, values))
+        continue;
       const { maxLength } = field.check;
       if (maxLength && values[field.key]!.length > maxLength)
         throw new Error(

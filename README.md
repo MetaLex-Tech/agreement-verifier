@@ -10,27 +10,28 @@ in your browser. Your files stay on your computer.
   that refer to exactly those bytes. It shows each agreement ID, the signing
   wallets, the signing times and the status. Offline, it identifies MetaLeX's
   standard registered templates.
-- **A name or field.** Load an opening file (a value, a random salt and its
-  field context) and compare it with a commitment recorded onchain. This works
-  offline.
+- **A name or field.** Load an opening file (`mtlxc1` value, random salt and
+  field context, or an `mtxe1` entry key or scope root-key backup) to decrypt
+  or compare it against a commitment recorded onchain. This works offline.
 - **A completed agreement.** Select the evidence attached to a completed PDF.
   The page rebuilds the reading of the agreement and checks it against the
   original template.
 
-The page only reads. It does not sign, send transactions or decrypt data.
+The page never signs or sends transactions. Decryption runs locally in your
+browser when you supply an `mtxe1` entry key or root-key backup.
 
 ## Get the page
 
 The page is pinned on IPFS. See [PUBLISHED.md](PUBLISHED.md) for every version.
 
-Latest version (2026-11-22):
+Latest version (2026-11-26):
 
-- IPFS address: `bafybeiaooetyjbptkzxrffkyzqn2ugcvudir6sugsfjvnalqqlvl77gbqy`
-- SHA-256: `fb8cb67b8190b8cbbcd5eef2e0ad5bfb617d7d757c53f05bfcd79c25dc017b0f`
+- IPFS address: `bafybeiex23hgyskt6eksjk2unllsxi33ltoih6apapweo627evscb45zcm`
+- SHA-256: `7642910d47a47ffcd1fc9380d728f1355d9383d0809943f8de7179bfe70bb4ad`
 
 Fetch it with an IPFS node (`ipfs get <address>`) or a public IPFS gateway that
 serves HTML, for example
-`https://ipfs.filebase.io/ipfs/bafybeiaooetyjbptkzxrffkyzqn2ugcvudir6sugsfjvnalqqlvl77gbqy`.
+`https://ipfs.filebase.io/ipfs/bafybeiex23hgyskt6eksjk2unllsxi33ltoih6apapweo627evscb45zcm`.
 Save the file, check its SHA-256, and open it from your disk. The same file is
 in this repository at `packages/encryption/formats/verifier.html`.
 
@@ -51,6 +52,8 @@ GitHub Actions job runs the same three commands on each push.
 
 ## Formats
 
+- [Encrypted commitment format v1](packages/encryption/formats/encrypted-commitment-v1.md)
+  and its [test vectors](packages/encryption/formats/encrypted-commitment-v1-vectors.json)
 - [Commitment format v1](packages/encryption/formats/commitment-v1.md) and its
   [test vectors](packages/encryption/formats/commitment-v1-vectors.json)
 - [Document references](packages/encryption/formats/document-references.md)

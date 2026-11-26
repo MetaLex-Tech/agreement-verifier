@@ -8,7 +8,8 @@ it in this table.
 
 | Version | IPFS address | SHA-256 | Bytes | Source |
 | --- | --- | --- | --- | --- |
-| 2026-11-22 | `bafybeiaooetyjbptkzxrffkyzqn2ugcvudir6sugsfjvnalqqlvl77gbqy` | `fb8cb67b8190b8cbbcd5eef2e0ad5bfb617d7d757c53f05bfcd79c25dc017b0f` | 1,323,016 | This repository (webapp commit `1101ca4925d6c86823a298ed7c31b9b2aafd0968`) |
+| 2026-11-26 | `bafybeiex23hgyskt6eksjk2unllsxi33ltoih6apapweo627evscb45zcm` | `7642910d47a47ffcd1fc9380d728f1355d9383d0809943f8de7179bfe70bb4ad` | 1,352,778 | This repository (webapp commit `7761eadbfdebf73b9e7c9642255c2a2319ae412f`) |
+| 2026-11-22 | `bafybeiaooetyjbptkzxrffkyzqn2ugcvudir6sugsfjvnalqqlvl77gbqy` | `fb8cb67b8190b8cbbcd5eef2e0ad5bfb617d7d757c53f05bfcd79c25dc017b0f` | 1,323,016 | Earlier commit `2726feb` in this repository (webapp commit `1101ca4925d6c86823a298ed7c31b9b2aafd0968`) |
 | 2026-11-21 | `bafybeignlglnphx477zx6xq5fv36avwcukq3qlcncp5xt32vfgeizr2lvy` | `b25e351d799c38771df2fd1d2fda673f9245eb8eae8fac86125d09c7fc0d15f4` | 1,418,934 | Not in this repository. That build also read the application's full template library. |
 
 On 2026-11-22 both versions received the same inputs offline: the three

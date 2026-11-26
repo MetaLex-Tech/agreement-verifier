@@ -1070,5 +1070,243 @@
       "cid": "bafybeig64o63hnd734rc5ribn2e3hqx5ddd4fo7zwziar27mqbvlabt4wi",
       "sha256": "c3e470d7308553ebf1c1f3a2453fd06005129dfab9a2ea46fd3e22b15c096dfb"
     }
+  },
+  {
+    "id": "safe_d_v2_1",
+    "title": "cyberSAFE \u2014 Reg D v2.1",
+    "publication": "published",
+    "textSha256": "64993485535b36bbd55319b0b38ee0ff719e2954a74b4cf250f1a264c42b97e8",
+    "dark": {
+      "cid": "bafkreiacbc2f6xu2jsvi6zytfp2crqo5a3cnx5fnkkbcep6udedgl2hm2m",
+      "sha256": "0208b45f5e9a4caa8f67132bf428c1dd06c4dbf4ad5282223fd4190665e8ecd3"
+    },
+    "light": {
+      "cid": "bafkreiewincy3yn7xrzubm2i54h6fnaiufyla3xfcevzgfe7rpw5o7cvxe",
+      "sha256": "9643458de1bfbc7340b348ef0fe2b408a170b06ee5112b93149f8bedd77c55b9"
+    }
+  },
+  {
+    "id": "safe_s_v2_1",
+    "title": "cyberSAFE \u2014 Reg S v2.1",
+    "publication": "published",
+    "textSha256": "73f2f70968e4cb95fea99d0f8815289024d1a314a453d12d06896139c85bff64",
+    "dark": {
+      "cid": "bafkreidu5ufxc2vlmufdoeviyvks6efhjkcgejzyw5k2nvkny427fonrvu",
+      "sha256": "74ed0b716aab650a3712a8c5552f10a74a84622738b755a6d54dc735f2b9b1ad"
+    },
+    "light": {
+      "cid": "bafkreichtgw624pmwlth7ge3jtlojiqje3zchx2dswcail5ehrk75rciqe",
+      "sha256": "4799aded71ecb2e67f989b4cd6e4a20926f223df439584042fa43c55fec44881"
+    }
+  },
+  {
+    "id": "warrant_d_v2_1",
+    "title": "cyberToken Warrant \u2014 Reg D v2.1",
+    "publication": "published",
+    "textSha256": "2dde7824d5eb6759e428646c78594a250b91da169a478e61d85116687bcea808",
+    "dark": {
+      "cid": "bafkreiamvoitwyy66ou6njalpcqpxnnvm7jvngiyidvqj3n5btd7liycxq",
+      "sha256": "0cab913b631ef3a9e6a40b78a0fbb5b567d356991840eb04edbd0cc7f5a302bc"
+    },
+    "light": {
+      "cid": "bafkreieqkibbp65hleqqmgotsoekiqpkj4uaodqh3fwfnsdpzixzbj4l2i",
+      "sha256": "90520217fba759210619d39388a441ea4f28070e07d96c56c86fca2f90a78bd2"
+    }
+  },
+  {
+    "id": "warrant_s_v2_1",
+    "title": "cyberToken Warrant \u2014 Reg S v2.1",
+    "publication": "published",
+    "textSha256": "4be664eb8d6e5595f921a6b242cc60d0a3d63918296dc0b2ec0b59071d601640",
+    "dark": {
+      "cid": "bafkreihxnvepiqqb7n7sdooe3x5m5i5ggatf4llczqfjvh7dkyjlk2jcva",
+      "sha256": "f76d48f44201fb7f21b9c4ddfacea3a630265e2d62cc0a9a9fe35612b56922a8"
+    },
+    "light": {
+      "cid": "bafkreieydwiuz2ty7arbnepwcfw2hskwfnip7jzufncmjdbnwbc4conxom",
+      "sha256": "981d914cea78f8221691f6116da3c9562b50ffa7342b44c48c2db045c139b773"
+    }
+  },
+  {
+    "id": "saft_d_v2_1",
+    "title": "cyberSAFT \u2014 Reg D v2.1",
+    "publication": "published",
+    "textSha256": "f11e11ac5974e8de0e64bae11d46ed525c9836b3d580dd4b149c2387714fba75",
+    "dark": {
+      "cid": "bafkreibob4xuel4bxoxikce3kmio5r3hovz6uw6okq7234n4l6q5434afa",
+      "sha256": "2e0f2f422f81bbae85089b5310eec7677573ea5bce543fadf1bc5fa1de6f8028"
+    },
+    "light": {
+      "cid": "bafkreibzcaq2sorshk6ki2jec4uxq4ews4tw4zbqvza47zlkke3ashijte",
+      "sha256": "391021a93a323abca46924172978709697276e6430ae41cfe56a5136091d0999"
+    }
+  },
+  {
+    "id": "saft_s_v2_1",
+    "title": "cyberSAFT \u2014 Reg S v2.1",
+    "publication": "published",
+    "textSha256": "faca048a9f2e4ba9e73afe9b98732bac174f0cb91de7d7920ff9f015555f6b35",
+    "dark": {
+      "cid": "bafkreigkrl7ri6n6jxfs5hc3vxrkwp2hufzyx4tegc2tigftpfzjg2hknu",
+      "sha256": "ca8aff1479be4dcb2e9c5bade2ab3f47a1738bf26430b53418b379729368ea6d"
+    },
+    "light": {
+      "cid": "bafkreibvad4fcz4shw2gxftly3vubsdod3kll3xoirhxzxsz7csewcuqga",
+      "sha256": "3500f85167923db46b966bc6eb40c86e1ed4b5eeee444f7cde59f8a44b0a9030"
+    }
+  },
+  {
+    "id": "safte_d_v2_1",
+    "title": "cyberSAFTE \u2014 Reg D v2.1",
+    "publication": "published",
+    "textSha256": "36dcec531a59b7cff877d31ef6256660376e6f5ca55a1f13bfe626f2107073c7",
+    "dark": {
+      "cid": "bafkreihrkvttzgrr3fimxlfwcw2aycalndgdjhqneb7gphbfig26p7nyau",
+      "sha256": "f155673c9a31d950cbacb615b40c080b68cc349e0d207e679c2541b5e7fdb805"
+    },
+    "light": {
+      "cid": "bafkreifri4suwhlpmz3cttensufksrnsgih7qyd4cioy634tg7zradwhi4",
+      "sha256": "b147254b1d6f667629cc8d950aa945b2320ff8607c121d8f6f9337f3100ec747"
+    }
+  },
+  {
+    "id": "safte_s_v2_1",
+    "title": "cyberSAFTE \u2014 Reg S v2.1",
+    "publication": "published",
+    "textSha256": "273527318851a00796b06fd34654eae752a0794ee1b5ae95b9137222d6f4d950",
+    "dark": {
+      "cid": "bafkreidr2dattkgvizys3heywj2sxoi55ujuscoxkl7f6ruvv4sd5duxyy",
+      "sha256": "71d0c139a8d546712d9c98b2752bb91ded134909d752fe5f4695af243e8e97c6"
+    },
+    "light": {
+      "cid": "bafkreid4nfxhy64xtnicxusa2a56rg4hutqcmjwxxi6onp5ts4pl3hrqre",
+      "sha256": "7c696e7c7b979b502bd240d03be89b87a4e02626d7ba3ce6bfb3971ebd9e3089"
+    }
+  },
+  {
+    "id": "spa_v2_1",
+    "title": "cyberPurchase Agreement v3.1",
+    "publication": "published",
+    "textSha256": "e27419bfc519cf6f112c83ad77c9eebd24ca431420f2cc8351809705470a9826",
+    "dark": {
+      "cid": "bafkreiel6tvnank3johfd33ntljzjxle2v36u4r73axk5nowbvuqciocbq",
+      "sha256": "8bf4ead0355b4b8e51ef6d9ad394dd64d577ea723fd82eaeb5d60d690121c20c"
+    },
+    "light": {
+      "cid": "bafkreibc72t3ukvi2ffbdubxyacwlf7qzkxzykopiocp75xp3i33glizhm",
+      "sha256": "22fea7ba2aa8d14a11d037c0056597f0caaf9c29cf4384fff6efda37b32d193b"
+    }
+  },
+  {
+    "id": "mlx_safe_reg_d_v2_1",
+    "title": "cyberSAFE \u2014 Reg D v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "3b17e3329341032788ed2646698399b73ed820dd6fc5eb4855105538f6cfceb7",
+    "dark": {
+      "cid": "bafybeihqel5diceuqncig3jzpj3h7yztutevvttba6sl2j7gsukneumxei",
+      "sha256": "90591b95e1b355ecd8cfd3672f7cc692301c3a7b327632f172c7863798b13e75"
+    },
+    "light": {
+      "cid": "bafybeic3oswn7eapkv3rnc3epugjxbcvuwd42vphgiuzifu3pftckfrg5m",
+      "sha256": "7f4dc270f4c99fc811b8aaaba891e4735ee9ee0f48467239071f4b0450bfc21c"
+    }
+  },
+  {
+    "id": "mlx_safe_reg_s_v2_1",
+    "title": "cyberSAFE \u2014 Reg S v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "b9fc81251569c828b66899dc897ebf9f81d2177e91bb94784719bb7e19c7220d",
+    "dark": {
+      "cid": "bafybeiftbw77zwnal4z6p3tundd4yiydxy5vbyegcnxu4a2iokzig2gogy",
+      "sha256": "8711a2ef7c23fd976d5f744b61940431fb29fbbd4d20ee4a00e740236bf5acee"
+    },
+    "light": {
+      "cid": "bafybeigrazcrxjoj3s2sycfssebardkmjdq7u5seiclkslmttdlbw6fsbi",
+      "sha256": "fb33237c4a69ae2839f60a4953a224c093c903bee657dbd43a952ff729bbe130"
+    }
+  },
+  {
+    "id": "mlx_safe_tw_reg_d_v2_1",
+    "title": "cyberSAFE + Token Warrant \u2014 Reg D v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "30ed66d96a4909d295abef1e7fece1b6ffafe53e98a1daa6a9f36290e9f4ba8b",
+    "dark": {
+      "cid": "bafybeick6aak6ro34kolbhx6ipwokvqvogt5k6ovyyixs52nwocbvsl5bi",
+      "sha256": "9452b1107682c9fa913ca290374634b7c882f1d42c720717cb6416692de738ac"
+    },
+    "light": {
+      "cid": "bafybeifqcefn3btdskq4idoyple5dwadgfks7c5footr32q5xld264n4wm",
+      "sha256": "4c0251243ec8fb25b0d93f7ea4ed778e090bf9d4953261b91f8fc99a5f1c807f"
+    }
+  },
+  {
+    "id": "mlx_safe_tw_reg_s_v2_1",
+    "title": "cyberSAFE + Token Warrant \u2014 Reg S v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "78f09ef6d1dab64622226dd23988bb0451dee21cae4a8e8a235ba8901774a094",
+    "dark": {
+      "cid": "bafybeiahvm72wj4wcog3ti35vuarbhvbdvgwoz6pm4dpvrtcyssrexq7y4",
+      "sha256": "edfb1282b79dd8844b7669f5dcb39adf55c4ed924a3310b58a62c8b7a3f4a1e1"
+    },
+    "light": {
+      "cid": "bafybeia5olemhdkghjno4xooj5cqbx6kb7mga4s3u4bn6z46ja65kthhsm",
+      "sha256": "5e4dbea46d960c2d4b3befa51d8d34f5ec0ce5e675022a17a5e72f358bdbb661"
+    }
+  },
+  {
+    "id": "mlx_saft_reg_d_v2_1",
+    "title": "cyberSAFT \u2014 Reg D v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "59dad7fe67f80ba34ca28bebeac29eb657f819453046b51eaf2e734728a23b34",
+    "dark": {
+      "cid": "bafybeidmenuuexcqkckrnddjlwuceni64foxrpdempndp25lvlvvhd5ykq",
+      "sha256": "480b09ad35829364b790b813b74d6ee6c3cc8443daf29a806a6a7641b7b464a1"
+    },
+    "light": {
+      "cid": "bafybeihdonvbmuszsm2kxo4bfakb7xtiku4gp2argxhacanof6hvsd3eia",
+      "sha256": "5616dc6ffb8ecc35c1a29e38775cbf7ff585c7c382585b41ef42e9829987dd63"
+    }
+  },
+  {
+    "id": "mlx_saft_reg_s_v2_1",
+    "title": "cyberSAFT \u2014 Reg S v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "5816dd08b2e2c7c801185c381ed1f944177fd31ada2805443a527d2d7032a69f",
+    "dark": {
+      "cid": "bafybeidmaymukqeltkbc2kzf4htazz2xl2dxedjpxfj6dwdqrvxhpbgfiq",
+      "sha256": "095d71168797dd3ef415a3f3f9e1ee5f86d8acc097b07ec056849eeb00be37dd"
+    },
+    "light": {
+      "cid": "bafybeibwpsc5zrjap5za6jhn2hjnbe5czgr52xpsl3gju4tlqviriounxq",
+      "sha256": "9213f8a5688de0eb3b8b3296b949360797b06fbfbe8574dfadcd7e4b5d41489c"
+    }
+  },
+  {
+    "id": "mlx_safte_reg_d_v2_1",
+    "title": "cyberSAFTE \u2014 Reg D v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "372857782d358e4bddd695e6585dcb330a917a7a1ea5457a4466b82b844240e7",
+    "dark": {
+      "cid": "bafybeigwm34xkvv63o6wkuajh3ellbktwn7fnud36vlsyspuc25ixwndiy",
+      "sha256": "568829c860e52ef68ebfdbba4c113777463918b85477db16e510b01d185f2085"
+    },
+    "light": {
+      "cid": "bafybeibb4dkui7xmpzxp32vbu6xri53bnptz35a2qqufi4cd5o4jh2mwlu",
+      "sha256": "905604ba68f71726918b53cbc89cc1df9257b6928f4beda5998f734eec280376"
+    }
+  },
+  {
+    "id": "mlx_safte_reg_s_v2_1",
+    "title": "cyberSAFTE \u2014 Reg S v2.1 \u2014 full agreement",
+    "publication": "published",
+    "textSha256": "9db7e83e0dda2390c833f598f59789c4c4ae070e1f2752bd3058d38f02ac759a",
+    "dark": {
+      "cid": "bafybeie6c3yja6neh2b7fu5m3nndjslegvvc3ramfgvwaggyqkoq7vkdue",
+      "sha256": "b0e627b87930f4730a956c66ebed35f027361fea8e0d71228a689ff01357e1c5"
+    },
+    "light": {
+      "cid": "bafybeiczwwvf5b34lki4r37gaediwna46p2nwzjbjz5lsj37nck7mca7em",
+      "sha256": "20e4943113ca307235cb0a5caf5f037e8e3f718510da044bf6c5c72b0fdbd19e"
+    }
   }
 ]

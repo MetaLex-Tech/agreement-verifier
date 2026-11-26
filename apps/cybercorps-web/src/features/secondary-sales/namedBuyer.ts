@@ -36,7 +36,7 @@ export function namedBuyerMetadata(buyer?: Address): Hex {
 
 export function readNamedBuyerMetadata(value: Hex): Address | undefined {
   if (value === "0x") return undefined;
-  if (value.length !== 130)
+  if (!/^0x[0-9a-fA-F]{64}0{24}[0-9a-fA-F]{40}$/.test(value))
     throw new Error("This offer uses unsupported counterparty restrictions.");
   const [version, buyer] = decodeAbiParameters(metadataTypes, value);
   if (version !== metadataVersion || buyer.toLowerCase() === zeroAddress)

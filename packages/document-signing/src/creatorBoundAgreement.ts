@@ -5,7 +5,11 @@ import {
   keccak256,
   stringToHex,
 } from "viem";
-import { SIGNATUREDATA_DOMAIN, SIGNATUREDATA_TYPES } from "./signatureData";
+import {
+  SIGNATUREDATA_DOMAIN,
+  SIGNATUREDATA_TYPES,
+  SIGNATUREWITHEVIDENCEDATA_TYPES,
+} from "./signatureData";
 import {
   StandaloneAgreementConstructionError,
   type StandaloneAgreementPayloadInput,
@@ -270,7 +274,10 @@ export const creatorBoundRegistryAbi = [
 export type CreatorBoundAgreementInput = Omit<
   StandaloneAgreementPayloadInput,
   "algorithm" | "allowTrailingOpenSlots"
->;
+> & {
+  /** Optional per-party signer conditions (`conditions[i]` for `parties[i]`). */
+  conditions?: SignerConditions;
+};
 
 /**
  * Mirrors `_boundIds`:
@@ -394,17 +401,39 @@ export const buildCreatorBoundAgreementPayload = (
       "party_values_length_mismatch",
       "Every creator-bound agreement party must have one party-values row",
     );
+  const conditions = input.conditions ?? [];
+  if (conditions.length > 0 && conditions.length !== input.parties.length)
+    throw new StandaloneAgreementConstructionError(
+      "party_values_length_mismatch",
+      "Every creator-bound agreement party must have one signer-conditions row",
+    );
   const { templateId, agreementId } = buildCreatorBoundIds(input);
   const globalFields = [...input.globalFields];
   const partyFields = [...input.partyFields];
   const globalValues = [...input.globalValues];
   const parties = [...input.parties];
   const partyValues = input.partyValues.map((values) => [...values]);
+  const normalizedConditions = conditions.map((list) =>
+    list.map((condition) => ({ ...condition })),
+  );
   const template = {
     legalContractUri: input.legalContractUri,
     title: input.title,
     globalFields,
     partyFields,
+  };
+  const domain = SIGNATUREDATA_DOMAIN({
+    address: input.registryAddress,
+    chainId: input.chainId,
+  });
+  const baseMessage = {
+    contractId: agreementId,
+    signer: input.creator as Address,
+    legalContractUri: input.legalContractUri,
+    globalFields,
+    partyFields,
+    globalValues,
+    partyValues: [...partyValues[0]!],
   };
   return {
     algorithm: CREATOR_BOUND_ALGORITHM,
@@ -412,34 +441,82 @@ export const buildCreatorBoundAgreementPayload = (
     agreementId,
     signatureData: {
       types: SIGNATUREDATA_TYPES,
-      domain: SIGNATUREDATA_DOMAIN({
-        address: input.registryAddress,
-        chainId: input.chainId,
-      }),
+      domain,
       primaryType: "SignatureData" as const,
-      message: {
-        contractId: agreementId,
-        signer: input.creator as Address,
-        legalContractUri: input.legalContractUri,
-        globalFields,
-        partyFields,
-        globalValues,
-        partyValues: [...partyValues[0]!],
-      },
+      message: baseMessage,
     },
-    createContractCall: (signature: Hex) => ({
-      address: input.registryAddress,
-      abi: creatorBoundRegistryAbi,
-      functionName: "createBoundContractAndSignFor" as const,
-      args: [
-        template,
-        input.salt,
-        globalValues,
-        parties,
-        partyValues,
-        input.expiry,
-        signature,
-      ] as const,
-    }),
+    ...(normalizedConditions.length > 0
+      ? {
+          signatureDataWithEvidence: (creatorEvidence: readonly Hex[]) => {
+            const expectedCount = normalizedConditions[0]?.length ?? 0;
+            if (
+              expectedCount === 0 ||
+              creatorEvidence.length !== expectedCount
+            ) {
+              throw new StandaloneAgreementConstructionError(
+                "party_values_length_mismatch",
+                "Creator evidence must match the number of signer conditions on party 1",
+              );
+            }
+            return {
+              types: SIGNATUREWITHEVIDENCEDATA_TYPES,
+              domain,
+              primaryType: "SignatureWithEvidenceData" as const,
+              message: {
+                ...baseMessage,
+                evidence: [...creatorEvidence],
+              },
+            };
+          },
+        }
+      : {}),
+    createContractCall: (signature: Hex, creatorEvidence?: readonly Hex[]) => {
+      if (normalizedConditions.length > 0) {
+        const evidence = [...(creatorEvidence ?? [])];
+        const expectedCount = normalizedConditions[0]?.length ?? 0;
+        if (evidence.length !== expectedCount) {
+          throw new StandaloneAgreementConstructionError(
+            "party_values_length_mismatch",
+            "Creator evidence must match the number of signer conditions on party 1",
+          );
+        }
+        return {
+          address: input.registryAddress,
+          abi: creatorBoundRegistryAbi,
+          functionName: "createBoundContractAndSignFor" as const,
+          args: [
+            template,
+            input.salt,
+            globalValues,
+            parties,
+            partyValues,
+            input.expiry,
+            normalizedConditions,
+            evidence,
+            signature,
+          ] as const,
+        };
+      }
+      if (creatorEvidence?.length) {
+        throw new StandaloneAgreementConstructionError(
+          "party_values_length_mismatch",
+          "Creator evidence requires signer conditions on party 1",
+        );
+      }
+      return {
+        address: input.registryAddress,
+        abi: creatorBoundRegistryAbi,
+        functionName: "createBoundContractAndSignFor" as const,
+        args: [
+          template,
+          input.salt,
+          globalValues,
+          parties,
+          partyValues,
+          input.expiry,
+          signature,
+        ] as const,
+      };
+    },
   };
 };

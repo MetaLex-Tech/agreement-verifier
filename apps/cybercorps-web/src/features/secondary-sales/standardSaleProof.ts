@@ -1,3 +1,5 @@
+import { isAnyInvestorCommitment } from "@metalex-web/encryption/commitment";
+import { ENCRYPTION_PREFIX } from "@metalex-web/encryption/constants";
 import {
   conformedAgreementNotice,
   conformedSaleVersion,
@@ -32,17 +34,25 @@ const uint = z
   );
 const block = z.strictObject({ number: uint, hash });
 const event = block.extend({ transaction: hash, timestamp: uint });
+const readable = z
+  .string()
+  .refine(
+    (v) =>
+      !v.startsWith(ENCRYPTION_PREFIX) &&
+      !v.startsWith("mfpii_") &&
+      !isAnyInvestorCommitment(v),
+  );
 const field = z.discriminatedUnion("disclosure", [
-  z.strictObject({ disclosure: z.literal("recorded"), value: z.string() }),
+  z.strictObject({ disclosure: z.literal("recorded"), value: readable }),
   z.strictObject({
     disclosure: z.literal("agreement-party-decryption"),
     ciphertextSha256: hash,
-    value: z.string(),
+    value: readable,
   }),
   z.strictObject({
     disclosure: z.literal("agreement-party-disclosure"),
-    commitment: z.string().regex(/^mtlxc1:[0-9a-f]{64}$/),
-    value: z.string(),
+    commitment: z.string().refine(isAnyInvestorCommitment),
+    value: readable,
   }),
 ]);
 const party = z.strictObject({

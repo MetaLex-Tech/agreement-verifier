@@ -1,0 +1,88 @@
+[
+  {
+    "name": "company holder name (64-byte bucket)",
+    "rootKey": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "scope": {
+      "kind": "company",
+      "chainId": "84532",
+      "company": "0xabababababababababababababababababababab"
+    },
+    "nonce": "000102030405060708090a0b0c0d0e0f1011121314151617",
+    "opening": {
+      "format": "mtxe1-opening-v1",
+      "chainId": "84532",
+      "entryKey": "d5dd13ffd313b91f1bb8ec8cd5b5af837f3dd95f6e743fd412a0792b1d550365",
+      "value": "Renée Li"
+    },
+    "commitment": "mtxe1:AAECAwQFBgcICQoLDA0ODxAREhMUFRYXqZD0-X5PC-NijifmFP6GqcnafPunbKnYmHhjJ8FisfNd3DzRaABvA9BQvCq6E3exDq52uGZ1x5KQ8R1HB1slHZ6QVy1FtXrsg4t10fvpFYWrqlMUni9QEb-ASiQiRhYC"
+  },
+  {
+    "name": "sale party contact with punctuation and non-BMP Unicode",
+    "rootKey": "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+    "scope": {
+      "kind": "sale",
+      "chainId": "84532",
+      "tradeContract": "0xefefefefefefefefefefefefefefefefefefefef",
+      "offerId": "0"
+    },
+    "nonce": "18191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f",
+    "opening": {
+      "format": "mtxe1-opening-v1",
+      "chainId": "84532",
+      "entryKey": "de60ceb33d799b8b27ddad3e5906ca4ebe3b1d72de49810becdf3bcd10b653a9",
+      "value": "A:B|<x>\n𐐷@example.test"
+    },
+    "commitment": "mtxe1:GBkaGxwdHh8gISIjJCUmJygpKissLS4vr2AAA9UA8IQgiRGPeT3QBte3i5R9_hHux4UuTwKSbWq6ZHUlLyj9_tLRGqkbzI41rNghxce7Jxo5fr1SfuQOdbV1HlBhpSnok1Cb8FvtC5NcwP5BWAbDIuldc3KW2lgU"
+  },
+  {
+    "name": "62-byte UTF-8 boundary (single 64-byte bucket)",
+    "rootKey": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "scope": {
+      "kind": "company",
+      "chainId": "42161",
+      "company": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+    },
+    "nonce": "303132333435363738393a3b3c3d3e3f4041424344454647",
+    "opening": {
+      "format": "mtxe1-opening-v1",
+      "chainId": "42161",
+      "entryKey": "f49da91b436655b5ea7e29f74407c677992c6cb50bc61879ea065e4d4640217a",
+      "value": "Global Institutional Digital Asset Custody Holdings Series LLC"
+    },
+    "commitment": "mtxe1:MDEyMzQ1Njc4OTo7PD0-P0BBQkNERUZHl47kV8l0TZvdAOmFdCOnBPvju1YDYe1N6ixrjXR6mTiXtSjNmrBV1aQLhdFX76mtZRHOOEQd1xHZHZWeuTjqXzCOodgQ99C1vV-2bguwFT89V-wH0fAJJe0Z-GHdUOoB"
+  },
+  {
+    "name": "63-byte UTF-8 boundary (steps to 128-byte bucket)",
+    "rootKey": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "scope": {
+      "kind": "company",
+      "chainId": "42161",
+      "company": "0xcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+    },
+    "nonce": "48494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f",
+    "opening": {
+      "format": "mtxe1-opening-v1",
+      "chainId": "42161",
+      "entryKey": "e26df9f0d8357d97217a5a03a18a9c0ae912d23eb2ea443db9d68437ea590992",
+      "value": "Global Institutional Digital Asset Custody Holdings Series LLC!"
+    },
+    "commitment": "mtxe1:SElKS0xNTk9QUVJTVFVWV1hZWltcXV5fnY6R1M2tLqfxnCeUJ35fB-lW5oH79niohEIYXU-wUkuIDrlEx1y43IMQO5oIrg2-i94zOh4cjryz3swUPyOpKQfWJUUW_Uz3nzxv0aqbt1LQWeaHZ27gCVTidQUEDYsHcbt82rtVdPqj5gTj2oIZ9z0HJWmrgvpbrbmhfHuJFOERuGPQfO-OSnw0zwTUaA6bdInPUzcENPxUSmbXd3FJ4Q"
+  },
+  {
+    "name": "empty optional field",
+    "rootKey": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f",
+    "scope": {
+      "kind": "company",
+      "chainId": "1",
+      "company": "0x1111111111111111111111111111111111111111"
+    },
+    "nonce": "606162636465666768696a6b6c6d6e6f7071727374757677",
+    "opening": {
+      "format": "mtxe1-opening-v1",
+      "chainId": "1",
+      "entryKey": "a04876e5aeaf5fcebc1fd08bfdcba1269b8d55f02b48b4c7e1ce97555df4bf60",
+      "value": ""
+    },
+    "commitment": "mtxe1:YGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3apOtSr6zXBGWHwoRoCp_F4KbudzUqhjltPf-ykbhwfpbTN0FcVVNT2yjEUgmk4Dyqfh6_gsIONmHkSpj6in26AxetbiPeQenGz7mHLhfvwFHLGx1jCHx71RsGdUULiQd"
+  }
+]

@@ -297,33 +297,6 @@ export const validateStandaloneAgreementPayload = (
     );
   }
 
-  if (
-    (input.allowTrailingOpenSlots
-      ? input.parties.filter((p) => !isAddressEqual(p, zeroAddress)).length
-      : input.parties.length) !== input.partyValues.length
-  ) {
-    throw new StandaloneAgreementConstructionError(
-      "party_values_length_mismatch",
-      "Every standalone agreement party must have one party-values row",
-    );
-  }
-
-  if (!input.partyValues[0]) {
-    throw new StandaloneAgreementConstructionError(
-      "missing_creator_party_values",
-      "The standalone agreement creator must have partyValues[0]",
-    );
-  }
-
-  for (const values of input.partyValues) {
-    if (!values || values.length !== input.partyFields.length) {
-      throw new StandaloneAgreementConstructionError(
-        "party_fields_length_mismatch",
-        "Every standalone agreement party row must match the party fields",
-      );
-    }
-  }
-
   const seenParties = new Set<string>();
   let openSeen = false;
   for (const party of input.parties) {
@@ -358,6 +331,32 @@ export const validateStandaloneAgreementPayload = (
     }
     seenParties.add(normalizedParty);
   }
+
+  if (
+    (input.allowTrailingOpenSlots ? seenParties.size : input.parties.length) !==
+    input.partyValues.length
+  ) {
+    throw new StandaloneAgreementConstructionError(
+      "party_values_length_mismatch",
+      "Every standalone agreement party must have one party-values row",
+    );
+  }
+
+  if (!input.partyValues[0]) {
+    throw new StandaloneAgreementConstructionError(
+      "missing_creator_party_values",
+      "The standalone agreement creator must have partyValues[0]",
+    );
+  }
+
+  for (const values of input.partyValues) {
+    if (!values || values.length !== input.partyFields.length) {
+      throw new StandaloneAgreementConstructionError(
+        "party_fields_length_mismatch",
+        "Every standalone agreement party row must match the party fields",
+      );
+    }
+  }
 };
 
 const assertCreatorFirst = (
@@ -383,6 +382,13 @@ const assertCreatorFirst = (
     throw new StandaloneAgreementConstructionError(
       "missing_creator",
       "The standalone agreement creator must be the first party",
+    );
+  }
+
+  if (!isAddress(firstParty)) {
+    throw new StandaloneAgreementConstructionError(
+      "invalid_party",
+      `Invalid standalone agreement party address: ${firstParty}`,
     );
   }
 

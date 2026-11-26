@@ -1,8 +1,8 @@
-import { isInvestorCommitment } from "@metalex-web/encryption/commitment";
+import { isAnyInvestorCommitment } from "@metalex-web/encryption/commitment";
 import { ENCRYPTION_PREFIX } from "@metalex-web/encryption/constants";
 
 export function isPrivateAgreementValue(value: string) {
-  return value.startsWith(ENCRYPTION_PREFIX) || isInvestorCommitment(value);
+  return value.startsWith(ENCRYPTION_PREFIX) || isAnyInvestorCommitment(value);
 }
 
 /** Existing templates store btoa strings. Preserve their original byte encoding
