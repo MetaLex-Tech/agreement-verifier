@@ -3,7 +3,7 @@ import type { output } from "zod";
 import type { stockReadingProof } from "../../apps/cybercorps-web/src/features/conformedAgreements/stockRoundReading";
 import type { stockTicketProof } from "../../apps/cybercorps-web/src/features/conformedAgreements/stockTicketReading";
 import type { saleReadingProof } from "../../apps/cybercorps-web/src/features/secondary-sales/standardSaleProof";
-import { isInvestorCommitment } from "../../packages/encryption/src/commitment";
+import { isAnyInvestorCommitment } from "../../packages/encryption/src/commitment";
 import { ENCRYPTION_PREFIX } from "../../packages/encryption/src/constants";
 import {
   type Agreement,
@@ -30,7 +30,8 @@ function matchesField(wire: string, field: Field) {
   if ("wire" in field) return wire === field.wire;
   return (
     !wire.startsWith(ENCRYPTION_PREFIX) &&
-    !isInvestorCommitment(wire) &&
+    !wire.startsWith("mfpii_") &&
+    !isAnyInvestorCommitment(wire) &&
     wire === field.value
   );
 }

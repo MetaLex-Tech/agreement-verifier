@@ -89,9 +89,8 @@ export type CorpContractEra = "v4" | "v5" | undefined;
 export const corpContractEra = (
   majorVersion: number | undefined,
 ): CorpContractEra => {
-  if (majorVersion === undefined || Number.isNaN(majorVersion))
-    return undefined;
-  return majorVersion >= CORP_V5_MAJOR_VERSION ? "v5" : "v4";
+  if (!isSupportedCorpContractMajor(majorVersion)) return undefined;
+  return majorVersion! >= CORP_V5_MAJOR_VERSION ? "v5" : "v4";
 };
 
 /** True only when the contract major version is v5 or later. */

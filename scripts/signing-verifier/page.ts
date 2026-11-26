@@ -24,6 +24,19 @@ import {
   isInvestorCommitment,
 } from "../../packages/encryption/src/commitment";
 import {
+  canonicalizeEncryptedKeyOpening,
+  canonicalizeEncryptedOpening,
+  canonicalizeEncryptedRootKeyBackup,
+  canonicalizeEncryptedValue,
+  decryptEncryptedCommitment,
+  decryptWithEntryKey,
+  ENCRYPTED_COMMITMENT_PREFIX,
+  ENCRYPTED_OPENING_FORMAT,
+  ENCRYPTED_ROOT_KEY_BACKUP_FORMAT,
+  type EncryptedRootKeyBackup,
+  isEncryptedCommitment,
+} from "../../packages/encryption/src/encryptedCommitment";
+import {
   conformedSaleVersion,
   isConformedSaleSource,
 } from "../../packages/legal-documents/src/conformedSecondarySale";
@@ -80,6 +93,7 @@ function date(seconds: bigint) {
 let docRequest: AbortController | undefined;
 let nameRequest: AbortController | undefined;
 let openingLoad = 0;
+let loadedRootKeyBackup: EncryptedRootKeyBackup | undefined;
 let comparison = 0;
 let selection: { chainId: number; values: string[] } | undefined;
 function clearDoc() {
@@ -678,19 +692,63 @@ function opening() {
 }
 for (const id of Object.values(fields))
   el(id).oninput = () => {
-    openingLoad++;
-    input("opening-file").value = "";
     clearComparison();
+    if (id === "value" && loadedRootKeyBackup) return;
+    openingLoad++;
+    loadedRootKeyBackup = undefined;
+    input("opening-file").value = "";
   };
 el("opening-file").onchange = async () => {
   const generation = ++openingLoad;
+  loadedRootKeyBackup = undefined;
   clearComparison();
   try {
     const file = input("opening-file").files?.[0];
     if (!file) return;
     for (const id of Object.values(fields)) input(id).value = "";
     const parsed = JSON.parse(await file.text());
-    const opened = canonicalizeOpening(parsed?.opening ?? parsed);
+    const unwrapped = parsed?.opening ?? parsed;
+    if (
+      unwrapped &&
+      typeof unwrapped === "object" &&
+      !Array.isArray(unwrapped) &&
+      (unwrapped as Record<string, unknown>).format ===
+        ENCRYPTED_ROOT_KEY_BACKUP_FORMAT
+    ) {
+      const backup = canonicalizeEncryptedRootKeyBackup(unwrapped);
+      if (openingLoad !== generation) return;
+      loadedRootKeyBackup = backup;
+      input("chain").value = backup.scope.chainId;
+      const scopeLabel =
+        backup.scope.kind === "company"
+          ? `company ${backup.scope.company} on chain ${backup.scope.chainId}`
+          : `sale offer ${backup.scope.offerId} on ${backup.scope.tradeContract} (chain ${backup.scope.chainId})`;
+      status(
+        "name-status",
+        `Root key backup loaded (${scopeLabel}). Choose or paste any mtxe1 commitment to decrypt.`,
+      );
+      return;
+    }
+    if (
+      unwrapped &&
+      typeof unwrapped === "object" &&
+      !Array.isArray(unwrapped) &&
+      (unwrapped as Record<string, unknown>).format === ENCRYPTED_OPENING_FORMAT
+    ) {
+      const opened = canonicalizeEncryptedKeyOpening(unwrapped);
+      if (openingLoad !== generation) return;
+      input("salt").value = opened.entryKey;
+      input("value").value = opened.value ?? "";
+      input("chain").value = opened.chainId ?? "";
+      status(
+        "name-status",
+        opened.value !== undefined
+          ? "Opening loaded. Choose the recorded commitment to compare."
+          : "Entry key loaded. Choose the recorded commitment to decrypt.",
+      );
+      return;
+    }
+    const opened = canonicalizeOpening(unwrapped);
     if (openingLoad !== generation) return;
     for (const [key, id] of Object.entries(fields))
       input(id).value = opened[key as keyof typeof fields];
@@ -730,7 +788,8 @@ el("load-record").onclick = async () => {
     const s = await finalized(connect(val("name-rpc").trim(), work.signal));
     const options: Array<[string, string]> = [];
     function add(label: string, value: string) {
-      if (isInvestorCommitment(value)) options.push([label, value]);
+      if (isInvestorCommitment(value) || isEncryptedCommitment(value))
+        options.push([label, value]);
     }
     if (source === "agreement") {
       const r = await readAgreement(s, agreementId(val("name-id").trim()));
@@ -780,14 +839,95 @@ el("load-record").onclick = async () => {
 el("compare").onclick = async () => {
   clearComparison();
   const pending = comparison;
+  const online = val("source") !== "paste";
+  const target = online
+    ? selection?.values[Number(val("choice"))]
+    : val("recorded").trim();
+  if (target?.startsWith(ENCRYPTED_COMMITMENT_PREFIX)) {
+    try {
+      if (!isEncryptedCommitment(target))
+        throw Error("Choose or paste a valid mtxe1 commitment.");
+      if (loadedRootKeyBackup) {
+        if (
+          online &&
+          String(selection?.chainId) !== loadedRootKeyBackup.scope.chainId
+        )
+          throw Error(
+            "Read a record on the root key backup’s chain before comparing.",
+          );
+        let decrypted: { value: string; entryKey: string };
+        try {
+          decrypted = decryptEncryptedCommitment(
+            loadedRootKeyBackup.rootKey,
+            loadedRootKeyBackup.scope,
+            target,
+          );
+        } catch {
+          status(
+            "name-status",
+            "Mismatch. The root key backup does not authenticate the recorded commitment.",
+            true,
+          );
+          return;
+        }
+        const expected = canonicalizeEncryptedValue(val("value"));
+        const match = !expected || decrypted.value === expected;
+        status(
+          "name-status",
+          (match
+            ? "Match. The root key backup opens the recorded commitment to this value."
+            : "Mismatch. The recorded commitment opens to a different value.") +
+            "\nOpened · " +
+            decrypted.value +
+            "\nDerived entry key · " +
+            decrypted.entryKey,
+          !match,
+        );
+        return;
+      }
+      const chain = val("chain").trim();
+      const encOpening = canonicalizeEncryptedOpening({
+        format: ENCRYPTED_OPENING_FORMAT,
+        entryKey: val("salt").trim(),
+        value: val("value"),
+        ...(chain ? { chainId: chain } : {}),
+      });
+      if (
+        online &&
+        encOpening.chainId &&
+        String(selection?.chainId) !== encOpening.chainId
+      )
+        throw Error("Read a record on the opening’s chain before comparing.");
+      let openedValue: string;
+      try {
+        openedValue = decryptWithEntryKey(encOpening.entryKey, target);
+      } catch {
+        status(
+          "name-status",
+          "Mismatch. The entry key does not authenticate the recorded commitment.",
+          true,
+        );
+        return;
+      }
+      const match = openedValue === encOpening.value;
+      status(
+        "name-status",
+        (match
+          ? "Match. The entry key opens the recorded commitment to this value."
+          : "Mismatch. The recorded commitment opens to a different value.") +
+          "\nOpened · " +
+          openedValue,
+        !match,
+      );
+    } catch (error) {
+      if (pending === comparison) status("name-status", message(error), true);
+    }
+    return;
+  }
   try {
     const o = opening();
-    const online = val("source") !== "paste";
     if (online && String(selection?.chainId) !== o.chainId)
       throw Error("Read a record on the opening’s chain before comparing.");
-    const target = online
-      ? selection?.values[Number(val("choice"))]
-      : val("recorded").trim();
     if (!isInvestorCommitment(target))
       throw Error("Choose or paste a v1 commitment.");
     const calculated = await computeCommitment(o);
@@ -807,5 +947,60 @@ el("compare").onclick = async () => {
       el<HTMLDetailsElement>("context").open = true;
       status("name-status", message(error), true);
     }
+  }
+};
+el("decrypt-entry").onclick = () => {
+  clearComparison();
+  try {
+    const online = val("source") !== "paste";
+    const target = online
+      ? selection?.values[Number(val("choice"))]
+      : val("recorded").trim();
+    if (!isEncryptedCommitment(target))
+      throw Error("Choose or paste a valid mtxe1 commitment to decrypt.");
+    if (loadedRootKeyBackup) {
+      if (
+        online &&
+        String(selection?.chainId) !== loadedRootKeyBackup.scope.chainId
+      )
+        throw Error(
+          "Read a record on the root key backup’s chain before decrypting.",
+        );
+      const decrypted = decryptEncryptedCommitment(
+        loadedRootKeyBackup.rootKey,
+        loadedRootKeyBackup.scope,
+        target,
+      );
+      input("value").value = decrypted.value;
+      input("salt").value = decrypted.entryKey;
+      status(
+        "name-status",
+        "Verified. Decrypted with root key backup.\nOpened · " +
+          decrypted.value +
+          "\nDerived entry key · " +
+          decrypted.entryKey,
+      );
+      return;
+    }
+    const chain = val("chain").trim();
+    const parsedKey = canonicalizeEncryptedKeyOpening({
+      format: ENCRYPTED_OPENING_FORMAT,
+      entryKey: val("salt").trim(),
+      ...(chain ? { chainId: chain } : {}),
+    });
+    if (
+      online &&
+      parsedKey.chainId &&
+      String(selection?.chainId) !== parsedKey.chainId
+    )
+      throw Error("Read a record on the opening’s chain before decrypting.");
+    const decrypted = decryptWithEntryKey(parsedKey.entryKey, target);
+    input("value").value = decrypted;
+    status(
+      "name-status",
+      "Verified. Decrypted the recorded commitment.\nOpened · " + decrypted,
+    );
+  } catch (error) {
+    status("name-status", message(error), true);
   }
 };

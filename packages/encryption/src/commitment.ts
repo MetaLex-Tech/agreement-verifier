@@ -1,4 +1,10 @@
 // Browser-safe v1 codec. The format and fixed vectors are in ../formats.
+import {
+  type EncryptedCommitmentOpening,
+  isEncryptedCommitment,
+  isEncryptedCommitmentOpening,
+} from "./encryptedCommitmentFormat";
+
 const domain = "MetaLeX/investor-field/commitment/v1";
 const encoder = new TextEncoder();
 const loneSurrogate = /[\uD800-\uDFFF]/u;
@@ -13,10 +19,22 @@ export type CommitmentInput = {
 
 export type CommitmentOpening = CommitmentInput & { salt: string };
 
+export type AnyInvestorOpening = CommitmentOpening | EncryptedCommitmentOpening;
+
+export { isEncryptedCommitment, isEncryptedCommitmentOpening };
+
+/** Matches legacy SHA-256 `mtlxc1:` commitments specifically. */
 export function isInvestorCommitment(
   value: unknown,
 ): value is `mtlxc1:${string}` {
   return typeof value === "string" && /^mtlxc1:[0-9a-f]{64}$/.test(value);
+}
+
+/** Matches either legacy `mtlxc1:` or Keccak-256 encrypted `mtxe1:` commitments. */
+export function isAnyInvestorCommitment(
+  value: unknown,
+): value is `mtlxc1:${string}` | `mtxe1:${string}` {
+  return isInvestorCommitment(value) || isEncryptedCommitment(value);
 }
 
 export function canonicalizeOpening(

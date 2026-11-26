@@ -52,7 +52,7 @@ export function salePurchaseTerms(
 }
 
 export function offerExpiry(expiry: bigint) {
-  return expiry > 8640000000000n
+  return expiry < 0n || expiry > 8640000000000n
     ? `Unix time ${expiry}`
     : new Date(Number(expiry) * 1000)
         .toISOString()

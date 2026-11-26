@@ -161,6 +161,7 @@
     }
     .actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
       align-items: center;
       margin: 1rem 0;
@@ -336,7 +337,7 @@
           commitment from the agreement or ledger entry token (LET).
         </p>
         <label
-          >Opening file (JSON)<input
+          >Opening or root key backup file (JSON)<input
             type="file"
             id="opening-file"
             accept=".json,application/json"
@@ -349,7 +350,7 @@
             style="display:block;width:100%;font:inherit;padding:.55rem"
           ></textarea></label
         ><label
-          >Salt<input
+          >Salt or entry key<input
             id="salt"
             spellcheck="false"
             autocomplete="off"
@@ -389,7 +390,7 @@
               id="recorded"
               autocomplete="off"
               spellcheck="false"
-              placeholder="mtlxc1:…"
+              placeholder="mtlxc1:… or mtxe1:…"
             ></label
           >
         </div>
@@ -436,13 +437,22 @@
           >
           <div id="record-status" class="result" role="status"></div>
         </div>
-        <button type="button" id="compare">Compare opening</button>
+        <div class="actions">
+          <button type="button" id="compare">Compare opening</button
+          ><button type="button" class="secondary" id="decrypt-entry">
+            Decrypt with key
+          </button>
+        </div>
         <div id="name-status" class="result" role="status"></div>
       </section>
       <footer>
         <a download="conformed-reading-v1.md" href="__FILE_conformed-reading-v1.md__">Download conformed reading format</a>
         <a download="commitment-v1.md" href="__FILE_commitment-v1.md__"
           >Download commitment format</a
+        ><a
+          download="encrypted-commitment-v1.md"
+          href="__FILE_encrypted-commitment-v1.md__"
+          >Download encrypted commitment format</a
         ><a
           download="document-references.md"
           href="__FILE_document-references.md__"
@@ -451,6 +461,10 @@
           download="commitment-v1-vectors.json"
           href="__FILE_commitment-v1-vectors.json__"
           >Download test vectors</a
+        ><a
+          download="encrypted-commitment-v1-vectors.json"
+          href="__FILE_encrypted-commitment-v1-vectors.json__"
+          >Download encrypted vectors</a
         >
       </footer>
       <noscript>Enable JavaScript to check a file in your browser.</noscript>

@@ -1,4 +1,4 @@
-import { isInvestorCommitment } from "@metalex-web/encryption/commitment";
+import { isAnyInvestorCommitment } from "@metalex-web/encryption/commitment";
 import { isPrivateAgreementValue } from "../deals/helpers/templateFieldEncoding";
 
 export const ticketPaymentVisibility =
@@ -30,7 +30,7 @@ export function readableTicketInvestor(
     if (i === 4 && text === "" && opened[3] === "Natural person") return "";
     if (!text.trim() || isPrivateAgreementValue(text))
       throw Error("The investor’s private details could not be verified.");
-    return isInvestorCommitment(value) ? text.trim().normalize("NFC") : text;
+    return isAnyInvestorCommitment(value) ? text.trim().normalize("NFC") : text;
   });
 }
 

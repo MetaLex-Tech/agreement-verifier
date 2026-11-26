@@ -25,6 +25,7 @@ packages/abis/cybercorps/cyberCorpFactoryAbi.ts
 packages/abis/cybercorps/cyberScripAbi.ts
 packages/abis/cybercorps/dealManagerAbi.ts
 packages/abis/cybercorps/dealManagerAbiV4.ts
+packages/abis/cybercorps/dealManagerFactoryAbi.ts
 packages/abis/cybercorps/ethosSafteExtensionAbi.ts
 packages/abis/cybercorps/iIssuanceManagerAbi.ts
 packages/abis/cybercorps/iLedgerEntryTokenAbi.ts
@@ -37,6 +38,7 @@ packages/abis/cybercorps/lexScrowStorageAbi.ts
 packages/abis/cybercorps/roundManagerAbi.ts
 packages/abis/cybercorps/roundManagerAbiLegacy.ts
 packages/abis/cybercorps/roundManagerAbiV4.ts
+packages/abis/cybercorps/roundManagerFactoryAbi.ts
 packages/abis/cybercorps/roundManagerWithPrintersAbi.ts
 packages/abis/cybercorps/safeExtensionAbi.ts
 packages/abis/cybercorps/safeExtensionV3Abi.ts
@@ -63,9 +65,13 @@ packages/encryption/formats/commitment-v1-vectors.json
 packages/encryption/formats/commitment-v1.md
 packages/encryption/formats/conformed-reading-v1.md
 packages/encryption/formats/document-references.md
+packages/encryption/formats/encrypted-commitment-v1-vectors.json
+packages/encryption/formats/encrypted-commitment-v1.md
 packages/encryption/formats/verifier.html
 packages/encryption/src/commitment.ts
 packages/encryption/src/constants.ts
+packages/encryption/src/encryptedCommitment.ts
+packages/encryption/src/encryptedCommitmentFormat.ts
 packages/legal-documents/src/agreementFields.ts
 packages/legal-documents/src/agreementReferences.ts
 packages/legal-documents/src/conditions.ts

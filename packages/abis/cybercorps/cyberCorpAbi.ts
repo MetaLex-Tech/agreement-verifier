@@ -832,13 +832,13 @@ export const cyberCorpAbi = [
     name: "DealManagerUpdated",
     inputs: [
       {
-        name: "oldDealManager",
+        name: "dealManager",
         type: "address",
         indexed: true,
         internalType: "address",
       },
       {
-        name: "newDealManager",
+        name: "oldDealManager",
         type: "address",
         indexed: true,
         internalType: "address",
@@ -889,13 +889,13 @@ export const cyberCorpAbi = [
     name: "IssuanceManagerUpdated",
     inputs: [
       {
-        name: "oldIssuanceManager",
+        name: "issuanceManager",
         type: "address",
         indexed: true,
         internalType: "address",
       },
       {
-        name: "newIssuanceManager",
+        name: "oldIssuanceManager",
         type: "address",
         indexed: true,
         internalType: "address",
@@ -978,13 +978,13 @@ export const cyberCorpAbi = [
     name: "RoundManagerUpdated",
     inputs: [
       {
-        name: "oldRoundManager",
+        name: "roundManager",
         type: "address",
         indexed: true,
         internalType: "address",
       },
       {
-        name: "newRoundManager",
+        name: "oldRoundManager",
         type: "address",
         indexed: true,
         internalType: "address",

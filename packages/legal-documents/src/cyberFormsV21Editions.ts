@@ -116,9 +116,9 @@ const packets: Record<
  *
  * The published editions join the reading lookups (`naturalSafeRegistration`,
  * `hasConformedTicket`, `matchingFinancingTemplates`,
- * `standardFinancingOriginalUri`) and the shared natural reader. They join no
- * presentation pair. A new round or ticket selects one only through the
- * app's release manifest.
+ * `standardFinancingOriginalUri`), the shared natural reader, and the dark/light
+ * presentation catalog (`cyberFormsPresentation.json`). A new round or ticket
+ * selects one only through the app's release manifest.
  */
 export const cyberFormsV21Editions = (
   Object.keys(packets) as CyberFormsV2PacketKind[]

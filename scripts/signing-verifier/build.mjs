@@ -49,9 +49,11 @@ let html = template
 const formats = new URL("../../packages/encryption/formats/", import.meta.url);
 for (const [name, mime] of [
   ["commitment-v1.md", "text/markdown"],
+  ["encrypted-commitment-v1.md", "text/markdown"],
   ["conformed-reading-v1.md", "text/markdown"],
   ["document-references.md", "text/markdown"],
   ["commitment-v1-vectors.json", "application/json"],
+  ["encrypted-commitment-v1-vectors.json", "application/json"],
 ]) {
   const marker = "__FILE_" + name + "__";
   if (!html.includes(marker))

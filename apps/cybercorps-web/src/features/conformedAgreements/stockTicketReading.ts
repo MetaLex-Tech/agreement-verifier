@@ -1,3 +1,4 @@
+import { isAnyInvestorCommitment } from "@metalex-web/encryption/commitment";
 import { conformedStockRound } from "@metalex-web/legal-documents/conformed-stock-round";
 import { registeredStock } from "@metalex-web/legal-documents/registered-stock";
 import { isAddressEqual, zeroAddress } from "viem";
@@ -38,7 +39,7 @@ const rowField = z.union([
   }),
   z.strictObject({
     source: z.literal("withheld-commitment"),
-    wire: z.string().regex(/^mtlxc1:[0-9a-f]{64}$/),
+    wire: z.string().refine(isAnyInvestorCommitment),
   }),
 ]);
 const asset = z.strictObject({

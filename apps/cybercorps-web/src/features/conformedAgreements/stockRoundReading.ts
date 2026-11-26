@@ -1,5 +1,5 @@
 import { shareExtensionV3Abi } from "@metalex-web/abis";
-import { isInvestorCommitment } from "@metalex-web/encryption/commitment";
+import { isAnyInvestorCommitment } from "@metalex-web/encryption/commitment";
 import { ENCRYPTION_PREFIX } from "@metalex-web/encryption/constants";
 import { conformedAgreementNotice } from "@metalex-web/legal-documents/conformed-secondary-sale";
 import { conformedStockRound } from "@metalex-web/legal-documents/conformed-stock-round";
@@ -38,7 +38,7 @@ const unsigned = z
   .refine((v) => BigInt(v) < 2n ** 256n);
 const text = z.string().max(256 * 1024);
 const readable = text.refine(
-  (v) => !v.startsWith(ENCRYPTION_PREFIX) && !isInvestorCommitment(v),
+  (v) => !v.startsWith(ENCRYPTION_PREFIX) && !isAnyInvestorCommitment(v),
 );
 const disclosed = z.discriminatedUnion("source", [
   z.strictObject({ source: z.literal("recorded"), value: readable }),
@@ -49,7 +49,7 @@ const disclosed = z.discriminatedUnion("source", [
   }),
   z.strictObject({
     source: z.literal("agreement-party-disclosure"),
-    wire: z.string().regex(/^mtlxc1:[0-9a-f]{64}$/),
+    wire: z.string().refine(isAnyInvestorCommitment),
     value: readable,
   }),
 ]);
@@ -69,7 +69,7 @@ export function stockPartyValues(
     if (
       typeof value !== "string" ||
       value.startsWith(ENCRYPTION_PREFIX) ||
-      isInvestorCommitment(value)
+      isAnyInvestorCommitment(value)
     )
       throw Error("The authorized stock purchase details could not be opened.");
     if (wire.startsWith(ENCRYPTION_PREFIX))
@@ -78,7 +78,7 @@ export function stockPartyValues(
         ciphertextSha256: sha256(toBytes(wire)),
         value,
       };
-    if (isInvestorCommitment(wire))
+    if (isAnyInvestorCommitment(wire))
       return { source: "agreement-party-disclosure" as const, wire, value };
     if (wire !== value)
       throw Error("A recorded stock purchase value differs from the copy.");

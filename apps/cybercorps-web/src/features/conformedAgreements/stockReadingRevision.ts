@@ -2,6 +2,6 @@
 export const stockAnnotationSha256 =
   "0x8c526582f4657a7a1d3fd3418eacea0d84fdb3188887df7c09765c652f18f0af";
 export const stockRendererSha256 =
-  "0x65adba4421dd2a7df8718af19be70d533ae62a505a8ec5aba1ec4b1322ce64dd";
+  "0x15af38a1a606b3fe91cff75248747876dff588b1f1c9708da673fa5681711a85";
 export const stockTicketRendererSha256 =
-  "0x391146bc1efd75e16eecc85a98efd619a881fff38638d9b2afb7e121bb45b44f";
+  "0x664927b4e2ad92f03355bcf8b1f8b4b8a84958e4fb38af24f2405da1e24ef1a8";
